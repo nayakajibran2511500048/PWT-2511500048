@@ -11,7 +11,7 @@ if (!$koneksi) {
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1 class="m-0 text-dark">Data Mapel</h1>
+        <h1 class="m-0 text-dark">Data Kelas</h1>
       </div>
     </div>
   </div>
@@ -21,18 +21,18 @@ if (!$koneksi) {
 // ================= DELETE DATA =================
 if (isset($_GET['action']) && $_GET['action'] == "hapus") {
 
-  if (isset($_GET['kd']) && $_GET['kd'] != "") {
+  if (isset($_GET['id']) && $_GET['id'] != "") {
 
-    $kd = mysqli_real_escape_string($koneksi, $_GET['kd']);
+    $id = mysqli_real_escape_string($koneksi, $_GET['id']);
 
     $hapus = mysqli_query($koneksi,
-      "DELETE FROM mapel WHERE kd_mapel = '$kd'"
+      "DELETE FROM kelas WHERE Id_kelas = '$id'"
     );
 
     if ($hapus) {
       echo "<script>
         alert('Data berhasil dihapus');
-        window.location='index.php?page=mapel';
+        window.location='index.php?page=kelas';
       </script>";
     } else {
       echo "<div class='alert alert-danger'>
@@ -48,8 +48,8 @@ if (isset($_GET['action']) && $_GET['action'] == "hapus") {
     <div class="card-body">
 
       <!-- Tombol tambah -->
-      <a href="index.php?page=tambah_mapel" class="btn btn-primary btn-sm mb-3">
-        Tambah Mapel
+      <a href="index.php?page=tambah_kelas" class="btn btn-primary btn-sm mb-3">
+        Tambah Kelas
       </a>
 
       <!-- Tabel data -->
@@ -57,9 +57,8 @@ if (isset($_GET['action']) && $_GET['action'] == "hapus") {
         <thead>
           <tr>
             <th>No</th>
-            <th>Kd Mapel</th>
-            <th>Nama Mapel</th>
-            <th>KKM</th>
+            <th>ID Kelas</th>
+            <th>Nama Kelas</th>
             <th>Aksi</th>
           </tr>
         </thead>
@@ -67,7 +66,7 @@ if (isset($_GET['action']) && $_GET['action'] == "hapus") {
         <tbody>
         <?php
         $no = 1;
-        $query = mysqli_query($koneksi, "SELECT * FROM mapel");
+        $query = mysqli_query($koneksi, "SELECT * FROM kelas");
 
         if (!$query) {
           die("Query error: " . mysqli_error($koneksi));
@@ -77,19 +76,18 @@ if (isset($_GET['action']) && $_GET['action'] == "hapus") {
         ?>
           <tr>
             <td><?= $no++; ?></td>
-            <td><?= $result['kd_mapel']; ?></td>
-            <td><?= $result['nm_mapel']; ?></td>
-            <td><?= $result['kkm']; ?></td>
+            <td><?= $result['Id_kelas']; ?></td>
+            <td><?= $result['Nm_kelas']; ?></td>
             <td>
 
               <!-- tombol edit -->
-              <a href="index.php?page=edit_mapel&kd=<?= $result['kd_mapel']; ?>" 
+              <a href="index.php?page=edit_kelas&id=<?= $result['Id_kelas']; ?>" 
                  class="btn btn-warning btn-sm">
                 Edit
               </a>
 
               <!-- tombol hapus -->
-              <a href="index.php?page=mapel&action=hapus&kd=<?= $result['kd_mapel']; ?>" 
+              <a href="index.php?page=kelas&action=hapus&id=<?= $result['Id_kelas']; ?>" 
                  class="btn btn-danger btn-sm"
                  onclick="return confirm('Yakin ingin menghapus data ini?')">
                 Hapus

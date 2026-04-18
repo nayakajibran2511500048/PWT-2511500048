@@ -64,6 +64,20 @@ ALTER TABLE `admin`
   MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
+-- Table structure for table `mapel`
+
+CREATE TABLE `mapel` (
+  `kd_mapel` varchar(10) NOT NULL,
+  `nm_mapel` varchar(100) DEFAULT NULL,
+  `kkm` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Indexes for dumped tables
+
+-- Indexes for table `mapel`
+ALTER TABLE `mapel`
+  ADD PRIMARY KEY (`kd_mapel`);
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

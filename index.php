@@ -122,7 +122,7 @@ if (isset($_SESSION['Username'])) {
               </li>
 
               <li class="nav-item">
-                <a href="kelas.php" class="nav-link">
+                <a href="index.php?page=kelas" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Kelas</p>
                 </a>
