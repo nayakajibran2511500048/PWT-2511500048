@@ -108,7 +108,7 @@ if (isset($_SESSION['Username'])) {
 
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="guru.php" class="nav-link">
+                <a href="index.php?page=guru" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Guru</p>
                 </a>
