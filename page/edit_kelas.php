@@ -9,11 +9,9 @@
 </div>
 
     <?php
-    $kd = $_GET['kd'] ?? $_GET['id'] ?? '';
+    $kd = $_GET['kd'];
+    $edit = mysqli_fetch_array(mysqli_query($koneksi,"SELECT * FROM kelas WHERE Id_kelas='$kd'"));
 
-$edit = mysqli_fetch_array(mysqli_query($koneksi,
-"SELECT * FROM kelas WHERE Id_kelas='$kd'"
-));
     if(isset($_POST['tambah'])){
         $Id_kelas = $_POST['Id_kelas'];
         $Nm_kelas = $_POST['Nm_kelas'];
