@@ -32,8 +32,7 @@
 
       <form action="#" method="post">
     <div class="input-group mb-3">
-        <input type="text" name="Username" id="Username" class="
-        form-control" placeholder="Username">
+        <input type="text" name="username" id="username" class="form-control" placeholder="Username">
         <div class="input-group-append">
             <div class="input-group-text">
                 <span class="fas fa-envelope"></span>
@@ -41,8 +40,7 @@
         </div>
     </div>
     <div class="input-group mb-3">
-        <input type="password" name="Password" id="Password" class="
-        form-control" placeholder="Password">
+        <input type="password" name="password" id="password" class="form-control" placeholder="Password">
         <div class="input-group-append">
             <div class="input-group-text">
                 <span class="fas fa-lock"></span>
@@ -75,19 +73,29 @@
 </html>
 
 <?php
-    if(isset($_POST['Username'])) {
-        $Username = $_POST['Username'];
-        $Password = $_POST['Password'];
+    if(isset($_POST['login'])) {
+        $username = $_POST['username']; 
+        $password = $_POST['password'];
 
-        if(empty($Username) || empty($Password)) {
+        if(empty($username) || empty($password)) {
             echo "Data Tidak Boleh kosong";
         } else {
-            $userquery = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM
-            admin WHERE Username = '$Username' AND Password = '$Password' "));
-            if($userquery) {
-                $_SESSION['level'] = 'admin';
-                $_SESSION['Username'] = $Username;
+            $query = mysqli_query($koneksi, "SELECT * FROM user WHERE username = '$username' AND password = '$password' ");
+            $data = mysqli_fetch_array($query);
+            if($data) {
+                $_SESSION['Username'] = $data['username'];
+                $_SESSION['level'] = $data['role'];
+
+                $role = $data['role'];
+                
+                if($role == "admin") {
                 header("location:index.php");
+                } elseif($role == "guru") {
+                header("location:index_guru.php");
+                } elseif($role == "siswa") {
+                header("location:index_siswa.php");
+                }
+                
             } else {
                 echo '<div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert"
