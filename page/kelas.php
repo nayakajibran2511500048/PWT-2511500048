@@ -1,5 +1,4 @@
 <?php
-// koneksi database
 $koneksi = mysqli_connect("localhost", "root", "", "jadwal", 3306);
 
 if (!$koneksi) {
@@ -9,11 +8,7 @@ if (!$koneksi) {
 
 <div class="content-header">
   <div class="container-fluid">
-    <div class="row mb-2">
-      <div class="col-sm-6">
-        <h1 class="m-0 text-dark">Data Kelas</h1>
-      </div>
-    </div>
+    <h1 class="m-0 text-dark">Data Kelas</h1>
   </div>
 </div>
 
@@ -32,7 +27,7 @@ if (isset($_GET['action']) && $_GET['action'] == "hapus") {
     if ($hapus) {
       echo "<script>
         alert('Data berhasil dihapus');
-        window.location='index.php?page=kelas';
+        window.location='index_siswa.php?page=kelas';
       </script>";
     } else {
       echo "<div class='alert alert-danger'>
@@ -48,7 +43,7 @@ if (isset($_GET['action']) && $_GET['action'] == "hapus") {
     <div class="card-body">
 
       <!-- Tombol tambah -->
-      <a href="index.php?page=tambah_kelas" class="btn btn-primary btn-sm mb-3">
+      <a href="index_siswa.php?page=tambah_kelas" class="btn btn-primary btn-sm mb-3">
         Tambah Kelas
       </a>
 
@@ -68,10 +63,6 @@ if (isset($_GET['action']) && $_GET['action'] == "hapus") {
         $no = 1;
         $query = mysqli_query($koneksi, "SELECT * FROM kelas");
 
-        if (!$query) {
-          die("Query error: " . mysqli_error($koneksi));
-        }
-
         while ($result = mysqli_fetch_assoc($query)) {
         ?>
           <tr>
@@ -81,13 +72,13 @@ if (isset($_GET['action']) && $_GET['action'] == "hapus") {
             <td>
 
               <!-- tombol edit -->
-              <a href="index.php?page=edit_kelas&id=<?= $result['Id_kelas']; ?>" 
+              <a href="index_siswa.php?page=edit_kelas&id=<?= $result['Id_kelas']; ?>" 
                  class="btn btn-warning btn-sm">
                 Edit
               </a>
 
               <!-- tombol hapus -->
-              <a href="index.php?page=kelas&action=hapus&id=<?= $result['Id_kelas']; ?>" 
+              <a href="index_siswa.php?page=kelas&action=hapus&id=<?= $result['Id_kelas']; ?>" 
                  class="btn btn-danger btn-sm"
                  onclick="return confirm('Yakin ingin menghapus data ini?')">
                 Hapus

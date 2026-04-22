@@ -31,7 +31,7 @@ if(isset($_POST['tambah'])) {
         aria-hidden="true">×</button>
         <h5><i class="icon fas fa-info"></i> Info </h5>
         <h4>Berhasil Disimpan</h4></div>';
-        echo '<meta http-equiv="refresh" content="1;url=index.php?page=kelas">';
+       echo '<meta http-equiv="refresh" content="1;url=index_siswa.php?page=kelas">';
     } else {
         echo '<div class="alert alert-warning alert-dismissible">
         <button type="button" class="close" data-dismiss="alert"
