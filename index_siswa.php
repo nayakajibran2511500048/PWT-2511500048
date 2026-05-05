@@ -75,21 +75,21 @@ if (isset($_SESSION['Username']) && $_SESSION['level'] == 'siswa') {
 
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="?page=guru" class="nav-link">
+                <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Profil</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="?page=kelas" class="nav-link">
+                <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Kelas</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="?page=mapel" class="nav-link">
+                <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Jadwal</p>
                 </a>

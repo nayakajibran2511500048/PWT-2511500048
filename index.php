@@ -137,6 +137,12 @@ if (isset($_SESSION['Username'])) {
               </li>
 
               <li class="nav-item">
+                <a href="index.php?page=ekstrakulikuler" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Ekstra</p>
+                </a>
+              </li>
+        
                 <a href="index.php?page=mapel" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Mapel</p>
