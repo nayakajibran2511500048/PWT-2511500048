@@ -1,6 +1,41 @@
 <?php
-    include "config/koneksi.php";
-    session_start();
+include "config/koneksi.php";
+session_start();
+
+$error_message = "";
+
+if (isset($_POST['login'])) { 
+    // Mengamankan input dari karakter aneh (SQL Injection)
+    $username = mysqli_real_escape_string($koneksi, $_POST['username']);
+    $password = mysqli_real_escape_string($koneksi, $_POST['password']);
+
+    if (empty($username) || empty($password)) {
+        $error_message = "Username dan Password tidak boleh kosong!";
+    } else {
+        // SUDAH DIUBAH: Menggunakan tabel 'user' sesuai phpMyAdmin Anda
+        $query_text = "SELECT * FROM user WHERE username = '$username' AND password = '$password'";
+        $eksekusi   = mysqli_query($koneksi, $query_text);
+
+        // Cek jika ada kesalahan struktur kolom pada tabel
+        if (!$eksekusi) {
+            die("Query Error: " . mysqli_error($koneksi)); 
+        }
+
+        $userquery = mysqli_fetch_array($eksekusi);
+
+        if ($userquery) {
+            // Menyimpan data login ke session
+            $_SESSION['role']     = $userquery['role']; // Pastikan di tabel ada kolom 'role'
+            $_SESSION['username'] = $username;
+            
+            // Alihkan ke halaman utama
+            header("Location: index.php");
+            exit(); 
+        } else {
+            $error_message = "Login gagal! Username atau Password salah.";
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -10,13 +45,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AdminLTE 3 | Log in</title>
 
-    <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
-    <!-- iCheck bootstrap -->
     <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-    <!-- Theme style -->
     <link rel="stylesheet" href="dist/css/adminlte.min.css">
 </head>
 <body class="hold-transition login-page">
@@ -24,86 +55,46 @@
     <div class="login-logo">
         <a href="#"><b>Admin</b>LTE</a>
     </div>
-    <!-- /.login-logo -->
-    
     <div class="card">
         <div class="card-body login-card-body">
             <p class="login-box-msg">Sign in to start your session</p>
 
-      <form action="#" method="post">
-    <div class="input-group mb-3">
-        <input type="text" name="username" id="username" class="form-control" placeholder="Username">
-        <div class="input-group-append">
-            <div class="input-group-text">
-                <span class="fas fa-envelope"></span>
-            </div>
-        </div>
-    </div>
-    <div class="input-group mb-3">
-        <input type="password" name="password" id="password" class="form-control" placeholder="Password">
-        <div class="input-group-append">
-            <div class="input-group-text">
-                <span class="fas fa-lock"></span>
-            </div>
-        </div>
-    </div>
-    <div class="row">
+            <?php if (!empty($error_message)): ?>
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+                    <?= $error_message; ?>
+                </div>
+            <?php endif; ?>
 
-        <!-- /.col -->
-        <div class="col-12">
-            <input type="submit" name="login" value="Login" class="btn
-            btn-primary btn-block">
+            <form action="" method="post">
+                <div class="input-group mb-3">
+                    <input type="text" name="username" id="username" class="form-control" placeholder="Username" required>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <input type="submit" name="login" value="Login" class="btn btn-primary btn-block">
+                    </div>
+                </div>
+            </form>
         </div>
-        <!-- /.col -->
-    </div>
-</form>
+        </div>
 </div>
-<!-- /.login-card-body -->
-</div>
-</div>
-<!-- /.login-box -->
-
-<!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
 </body>
 </html>
-
-<?php
-    if(isset($_POST['login'])) {
-        $username = $_POST['username']; 
-        $password = $_POST['password'];
-
-        if(empty($username) || empty($password)) {
-            echo "Data Tidak Boleh kosong";
-        } else {
-            $query = mysqli_query($koneksi, "SELECT * FROM user WHERE username = '$username' AND password = '$password' ");
-            $data = mysqli_fetch_array($query);
-            if($data) {
-                $_SESSION['Username'] = $data['username'];
-                $_SESSION['level'] = $data['role'];
-
-                $role = $data['role'];
-                
-                if($role == "admin") {
-                header("location:index.php");
-                } elseif($role == "guru") {
-                header("location:index_guru.php");
-                } elseif($role == "siswa") {
-                header("location:index_siswa.php");
-                }
-                
-            } else {
-                echo '<div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert"
-                    aria-hidden="true">x</button>
-                    <h5><i class="icon fas fa-ban"></i> Alert!</h5>
-                    Login gagal
-                </div>';
-            }
-        }
-    }
-?>
